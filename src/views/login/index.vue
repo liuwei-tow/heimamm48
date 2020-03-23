@@ -7,13 +7,57 @@
         <div class="titleline"></div>
         <div class="titlelogin">用户登录</div>
       </div>
+      <el-form class="loginform" ref="form" :model="form" label-width="0px">
+        <el-form-item>
+          <el-input prefix-icon="el-icon-user" placeholder="请输入手机号" v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-row>
+            <el-col :span="16">
+              <el-input prefix-icon="el-icon-key" placeholder="请输入验证码" v-model="form.name"></el-input>
+            </el-col>
+            <el-col :span="8">
+              <img class="loginimg" src="../../assets/login_captcha.png" alt />
+            </el-col>
+          </el-row>
+        </el-form-item>
+
+        <el-form-item class="checkboxheight">
+          <el-checkbox v-model="form.type" >
+            我已阅读并同意
+            <el-link type="primary">用户协议</el-link>和
+            <el-link type="primary">隐私条款</el-link>
+          </el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
     </div>
     <img class="rightimg" src="../../assets/login_banner_ele.png" alt />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      form: {
+        name: "",
+        type: []
+      }
+    };
+  },
+  methods: {
+    onSubmit() {
+      console.log("submit!");
+    }
+  }
+};
 </script>
 
 <style lang="less">
@@ -65,6 +109,19 @@ export default {};
         font-family: PingFangSC;
         font-weight: 400;
         color: rgba(12, 12, 12, 1);
+      }
+    }
+    .loginform {
+      margin-top: 29px;
+      .loginimg {
+        width: 100%;
+        height: 40px;
+      }
+      .checkboxheight {
+        .el-form-item__content{
+          line-height: 16px;
+        }
+        
       }
     }
   }
