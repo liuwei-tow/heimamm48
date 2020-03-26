@@ -1,22 +1,22 @@
 <template>
   <el-dialog title="用户注册" :visible.sync="dialogFormVisible">
-    <el-form :model="form">
-      <el-form-item label="昵称" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+    <el-form ref="form" :rules="rules" :model="form">
+      <el-form-item label="昵称" prop="nickname" :label-width="formLabelWidth">
+        <el-input v-model="form.nickname" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form-item label="邮箱" prop="email" :label-width="formLabelWidth">
+        <el-input v-model="form.email" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="手机" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form-item label="手机" prop="phone" :label-width="formLabelWidth">
+        <el-input v-model="form.phone" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form-item label="密码" prop="password" :label-width="formLabelWidth">
+        <el-input v-model="form.password" autocomplete="off"></el-input>
       </el-form-item>
       <el-row>
         <el-col :span="18">
-          <el-form-item label="图形码" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-form-item label="图形码" prop="code" :label-width="formLabelWidth">
+            <el-input v-model="form.code" autocomplete="off"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -25,8 +25,8 @@
       </el-row>
       <el-row>
         <el-col :span="18">
-          <el-form-item label="验证码" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-form-item label="验证码" prop="logincode" :label-width="formLabelWidth">
+            <el-input v-model="form.logincode" autocomplete="off"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -36,7 +36,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="onsubmit">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -48,10 +48,51 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: "67px",
       form: {
-        name: "",
-        region: ""
+        nickname: "",
+        email: "",
+        phone: "",
+        password: "",
+        code: "",
+        logincode: ""
+      },
+
+      rules: {
+        nickname: [
+          { required: true, message: "昵称不能为空", trigger: "blur" },
+          { min: 5, max: 10, message: "长度在 5 到 10 个字符", trigger: "blur" }
+        ],
+        email: [{ required: true, message: "邮箱不能为空", trigger: "blur" }],
+        phone: [
+          { required: true, message: "手机不能为空", trigger: "blur" },
+          { min: 11, max: 11, message: "长度在 11 个字符", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "密码不能为空", trigger: "blur" }
+        ],
+        code: [
+          { required: true, message: "图形码不能为空", trigger: "blur" },
+          { min: 4, max: 4, message: "长度在 4 个字符", trigger: "blur" }
+        ],
+        logincode: [
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+          { min: 6, max: 6, message: "长度在 6 个字符", trigger: "blur" }
+        ]
       }
     };
+  },
+  methods: {
+    onsubmit() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.$message({
+            message: "注册成功",
+            type: "success"
+          });
+        }else{
+             this.$message.error('注册失败，请从新输入');
+        }
+      });
+    }
   }
 };
 </script>
@@ -72,7 +113,7 @@ export default {
     }
   }
   .el-col-6 {
-      text-align: right;
+    text-align: right;
     height: 41px;
     .registerimg {
       width: 143px;
