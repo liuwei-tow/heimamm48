@@ -38,15 +38,17 @@
         </el-form-item>
         <el-form-item>
           
-          <el-button class="loginbtn" type="primary">注册</el-button>
+          <el-button class="loginbtn" type="primary" @click="open">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <img class="rightimg" src="../../assets/login_banner_ele.png" alt />
+    <register ref="register" />
   </div>
 </template>
 
 <script>
+import register from './components/register'
 export default {
   data() {
     return {
@@ -87,7 +89,13 @@ export default {
           this.$message.error('验证失败！');
         }
       })
+    },
+    open(){
+      this.$refs.register.dialogFormVisible = true
     }
+  },
+  components:{
+    register
   }
 };
 </script>
